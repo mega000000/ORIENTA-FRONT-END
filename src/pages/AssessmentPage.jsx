@@ -78,13 +78,15 @@ function AssessmentPage() {
     setSubmitting(true);
     setError('');
 
+    // 🌟 FIX 1: Map 'score' to 'value' to match Java AnswerRequest DTO
     const formattedAnswers = Object.entries(answers).map(([questionId, score]) => ({
       questionId: Number(questionId),
-      score,
+      value: score,
     }));
 
     try {
       await submitAnswers(sessionId, formattedAnswers);
+      // 🌟 FIX 2: Teleport to the exact route defined in App.jsx
       navigate(`/assessment/results/${sessionId}`);
     } catch (err) {
       console.error('Error submitting answers:', err);
@@ -125,9 +127,13 @@ function AssessmentPage() {
   }
 
   const currentQ = questions[currentIndex];
-  const progressPercent = questions.length > 0 ? ((currentIndex + 1) / questions.length) * 100 : 0;
+  
+  // 🌟 FIX 3: Progress calculates based on ACTUAL answers clicked, not just page number
+  const answeredCount = Object.keys(answers).length;
+  const progressPercent = questions.length > 0 ? (answeredCount / questions.length) * 100 : 0;
+  
   const isAnswered = answers[currentQ?.id] !== undefined;
-  const isAllAnswered = questions.length > 0 && questions.every((q) => answers[q.id] !== undefined);
+  const isAllAnswered = questions.length > 0 && answeredCount === questions.length;
   const isLastQuestion = currentIndex === questions.length - 1;
 
   const ratingOptions = [
@@ -221,7 +227,7 @@ function AssessmentPage() {
                 height: 6,
                 borderRadius: 3,
                 bgcolor: '#F5F6FA',
-                '& .MuiLinearProgress-bar': { bgcolor: '#635BFF' },
+                '& .MuiLinearProgress-bar': { bgcolor: '#635BFF', borderRadius: 3 },
               }}
             />
           </Box>
