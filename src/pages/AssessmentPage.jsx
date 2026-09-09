@@ -14,11 +14,11 @@ import {
   Chip,
   Alert,
 } from '@mui/material';
-import QuizIcon from '@mui/icons-material/QuizRounded';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForwardRounded';
 import ArrowBackIcon from '@mui/icons-material/ArrowBackRounded';
 import CheckCircleIcon from '@mui/icons-material/CheckCircleRounded';
 import AppLayout from '../components/AppLayout';
+import { DoodleBrain, DoodleQuiz } from '../components/DoodleIcons';
 import {
   getQuestionnaire,
   startSession,
@@ -38,7 +38,6 @@ function AssessmentPage() {
   useEffect(() => {
     const initTest = async () => {
       try {
-        // جلب أسئلة اختبار RIASEC وبدء الجلسة
         const questionnaire = await getQuestionnaire('RIASEC');
         const session = await startSession('RIASEC');
 
@@ -86,7 +85,6 @@ function AssessmentPage() {
 
     try {
       await submitAnswers(sessionId, formattedAnswers);
-      // الانتقال لصفحة النتائج أولاً لعرض كود RIASEC
       navigate(`/assessment/results/${sessionId}`);
     } catch (err) {
       console.error('Error submitting answers:', err);
@@ -99,7 +97,7 @@ function AssessmentPage() {
   if (loading) {
     return (
       <AppLayout activeTab="RIASEC Test">
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
           <CircularProgress sx={{ color: '#635BFF' }} />
         </Box>
       </AppLayout>
@@ -109,14 +107,15 @@ function AssessmentPage() {
   if (error && questions.length === 0) {
     return (
       <AppLayout activeTab="RIASEC Test">
-        <Paper sx={{ p: 5, borderRadius: 6, textAlign: 'center', bgcolor: 'white', border: '1.5px solid #F0F2F7' }}>
-          <Typography variant="h6" color="error" gutterBottom>
+        <Paper sx={{ p: 4, borderRadius: 5, textAlign: 'center', bgcolor: 'white', border: '1.5px solid #F0F2F7', maxWidth: 500, mx: 'auto', mt: 4 }}>
+          <Typography variant="body1" color="error" fontWeight="bold" gutterBottom>
             {error}
           </Typography>
           <Button
             variant="contained"
+            size="small"
             onClick={() => window.location.reload()}
-            sx={{ mt: 2, bgcolor: '#635BFF', borderRadius: 3, fontWeight: 700 }}
+            sx={{ mt: 1.5, bgcolor: '#635BFF', borderRadius: 2.5, fontWeight: 700 }}
           >
             Retry
           </Button>
@@ -141,190 +140,245 @@ function AssessmentPage() {
 
   return (
     <AppLayout activeTab="RIASEC Test">
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ fontWeight: 800, color: '#1A1C24', mb: 1 }}>
-          RIASEC Assessment Test 🧠
-        </Typography>
-        <Typography variant="body2" sx={{ color: '#7E8494' }}>
-          Answer honestly to discover your Holland personality profile and best career orientation matches.
-        </Typography>
-      </Box>
-
-      {error && (
-        <Alert severity="error" sx={{ mb: 3, borderRadius: 4 }} onClose={() => setError('')}>
-          {error}
-        </Alert>
-      )}
-
-      <Paper
-        sx={{
-          p: { xs: 3, md: 5 },
-          borderRadius: 6,
-          bgcolor: 'white',
-          border: '1.5px solid #F0F2F7',
-          boxShadow: '0 12px 35px rgba(100, 110, 140, 0.05)',
-          maxWidth: 820,
-          mx: 'auto',
-        }}
-      >
-        <Box sx={{ mb: 4 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
-            <Chip
-              icon={<QuizIcon sx={{ color: '#635BFF !important' }} />}
-              label={`Question ${currentIndex + 1} of ${questions.length}`}
-              sx={{ bgcolor: '#EDEDFE', color: '#635BFF', fontWeight: 800, borderRadius: 3 }}
-            />
-            <Typography variant="caption" fontWeight="800" sx={{ color: '#635BFF' }}>
-              {progressPercent.toFixed(0)}% Completed
+      <Stack spacing={1.5} sx={{ width: '100%', maxWidth: 780, mx: 'auto' }}>
+        {/* Compact Header */}
+        <Box>
+          <Box
+            sx={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 0.8,
+              px: 1.2,
+              py: 0.35,
+              bgcolor: '#EDEDFE',
+              borderRadius: 4,
+              mb: 0.6,
+            }}
+          >
+            <DoodleBrain sx={{ fontSize: 16, color: '#635BFF' }} />
+            <Typography variant="caption" sx={{ color: '#635BFF', fontWeight: 800, fontSize: '0.72rem', letterSpacing: 0.4 }}>
+              CAREER FIT TEST
             </Typography>
           </Box>
-          <LinearProgress
-            variant="determinate"
-            value={progressPercent}
-            sx={{
-              height: 8,
-              borderRadius: 4,
-              bgcolor: '#F5F6FA',
-              '& .MuiLinearProgress-bar': { bgcolor: '#635BFF' },
-            }}
-          />
-        </Box>
 
-        <Box sx={{ minHeight: 90, mb: 4 }}>
           <Typography
-            variant="h5"
+            variant="h4"
             sx={{
               fontWeight: 800,
+              letterSpacing: '-0.02em',
+              lineHeight: 1.2,
               color: '#1A1C24',
-              lineHeight: 1.4,
-              letterSpacing: '-0.01em',
+              fontSize: { xs: '1.35rem', md: '1.65rem' },
             }}
           >
-            {currentQ?.text || currentQ?.questionText}
+            RIASEC Assessment{' '}
+            <Box
+              component="span"
+              sx={{
+                background: 'linear-gradient(90deg, #635BFF 0%, #8F85FF 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              Evaluation
+            </Box>
           </Typography>
-          {(currentQ?.dimension || currentQ?.riasecType) && (
-            <Chip
-              label={`Profile Dimension: ${currentQ.dimension || currentQ.riasecType}`}
-              size="small"
-              sx={{ mt: 1.5, bgcolor: '#F5F6FA', color: '#7E8494', fontWeight: 700 }}
-            />
-          )}
         </Box>
 
-        <RadioGroup
-          value={answers[currentQ?.id] || ''}
-          onChange={(e) => handleScoreSelect(e.target.value)}
-          sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mb: 5 }}
+        {error && (
+          <Alert severity="error" sx={{ py: 0.5, px: 2, borderRadius: 3, fontSize: '0.8rem' }} onClose={() => setError('')}>
+            {error}
+          </Alert>
+        )}
+
+        {/* Compact Main Questionnaire Card */}
+        <Paper
+          sx={{
+            p: 2.5,
+            borderRadius: 4.5,
+            bgcolor: 'white',
+            border: '1.5px solid #F0F2F7',
+            boxShadow: '0 6px 24px rgba(100, 110, 140, 0.04)',
+          }}
         >
-          {ratingOptions.map((opt) => {
-            const selected = answers[currentQ?.id] === opt.value;
-            return (
-              <Box
-                key={opt.value}
-                onClick={() => handleScoreSelect(opt.value)}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  px: 3,
-                  py: 1.5,
-                  borderRadius: 4,
-                  border: selected ? '2px solid #635BFF' : '1.5px solid #F0F2F7',
-                  bgcolor: selected ? '#F6F5FF' : 'white',
-                  cursor: 'pointer',
-                  transition: '0.2s',
-                  '&:hover': {
-                    borderColor: '#635BFF',
-                    bgcolor: '#FAF9FF',
-                  },
-                }}
-              >
-                <FormControlLabel
-                  value={opt.value}
-                  control={
-                    <Radio
-                      sx={{
-                        color: '#D0D5DD',
-                        '&.Mui-checked': { color: '#635BFF' },
-                      }}
-                    />
-                  }
-                  label={
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontWeight: selected ? 800 : 600,
-                        color: selected ? '#1A1C24' : '#4A5060',
-                      }}
-                    >
-                      {opt.label}
-                    </Typography>
-                  }
-                  sx={{ width: '100%', m: 0 }}
+          {/* Progress Header */}
+          <Box sx={{ mb: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
+              <Chip
+                icon={<DoodleQuiz sx={{ fontSize: '15px !important', color: '#635BFF !important' }} />}
+                label={`Question ${currentIndex + 1} of ${questions.length}`}
+                size="small"
+                sx={{ bgcolor: '#EDEDFE', color: '#635BFF', fontWeight: 800, fontSize: '0.72rem', height: 24, borderRadius: 2 }}
+              />
+              <Typography variant="caption" fontWeight="800" sx={{ color: '#635BFF', fontSize: '0.75rem' }}>
+                {progressPercent.toFixed(0)}% Completed
+              </Typography>
+            </Box>
+            <LinearProgress
+              variant="determinate"
+              value={progressPercent}
+              sx={{
+                height: 6,
+                borderRadius: 3,
+                bgcolor: '#F5F6FA',
+                '& .MuiLinearProgress-bar': { bgcolor: '#635BFF' },
+              }}
+            />
+          </Box>
+
+          {/* Question Prompt */}
+          <Box sx={{ minHeight: 64, display: 'flex', flexDirection: 'column', justifyContent: 'center', mb: 2 }}>
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 800,
+                color: '#1A1C24',
+                lineHeight: 1.35,
+                fontSize: { xs: '1rem', md: '1.15rem' },
+                letterSpacing: '-0.01em',
+              }}
+            >
+              {currentQ?.text || currentQ?.questionText}
+            </Typography>
+            {(currentQ?.dimension || currentQ?.riasecType) && (
+              <Box sx={{ mt: 0.8 }}>
+                <Chip
+                  label={`Dimension: ${currentQ.dimension || currentQ.riasecType}`}
+                  size="small"
+                  sx={{ bgcolor: '#F5F6FA', color: '#7E8494', fontWeight: 700, fontSize: '0.68rem', height: 20 }}
                 />
               </Box>
-            );
-          })}
-        </RadioGroup>
-
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', pt: 2, borderTop: '1px solid #F5F6FA' }}>
-          <Button
-            variant="text"
-            startIcon={<ArrowBackIcon />}
-            disabled={currentIndex === 0}
-            onClick={handlePrev}
-            sx={{
-              color: '#7E8494',
-              fontWeight: 700,
-              textTransform: 'none',
-              '&:hover': { color: '#635BFF', bgcolor: 'transparent' },
-            }}
-          >
-            Previous
-          </Button>
-
-          <Stack direction="row" spacing={2}>
-            {!isLastQuestion ? (
-              <Button
-                variant="contained"
-                endIcon={<ArrowForwardIcon />}
-                disabled={!isAnswered}
-                onClick={handleNext}
-                sx={{
-                  bgcolor: '#635BFF',
-                  fontWeight: 700,
-                  borderRadius: 3.5,
-                  px: 3.5,
-                  py: 1.1,
-                  textTransform: 'none',
-                  '&:hover': { bgcolor: '#534BE8' },
-                }}
-              >
-                Next Question
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                color="success"
-                startIcon={<CheckCircleIcon />}
-                disabled={!isAllAnswered || submitting}
-                onClick={handleSubmit}
-                sx={{
-                  bgcolor: '#00D097',
-                  fontWeight: 800,
-                  borderRadius: 3.5,
-                  px: 4,
-                  py: 1.2,
-                  textTransform: 'none',
-                  boxShadow: '0 8px 20px rgba(0, 208, 151, 0.25)',
-                  '&:hover': { bgcolor: '#00B885' },
-                }}
-              >
-                {submitting ? 'Calculating Profile...' : 'Submit Assessment'}
-              </Button>
             )}
-          </Stack>
-        </Box>
-      </Paper>
+          </Box>
+
+          {/* Rating Options */}
+          <RadioGroup
+            value={answers[currentQ?.id] || ''}
+            onChange={(e) => handleScoreSelect(e.target.value)}
+            sx={{ display: 'flex', flexDirection: 'column', gap: 1, mb: 2.5 }}
+          >
+            {ratingOptions.map((opt) => {
+              const selected = answers[currentQ?.id] === opt.value;
+              return (
+                <Box
+                  key={opt.value}
+                  onClick={() => handleScoreSelect(opt.value)}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    px: 2,
+                    py: 1,
+                    borderRadius: 3,
+                    border: selected ? '2px solid #635BFF' : '1.5px solid #F0F2F7',
+                    bgcolor: selected ? '#F8F7FF' : '#FAFBFD',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                    '&:hover': {
+                      borderColor: '#635BFF',
+                      bgcolor: '#FAF9FF',
+                    },
+                  }}
+                >
+                  <FormControlLabel
+                    value={opt.value}
+                    control={
+                      <Radio
+                        size="small"
+                        sx={{
+                          p: 0.5,
+                          mr: 1,
+                          color: '#D0D5DD',
+                          '&.Mui-checked': { color: '#635BFF' },
+                        }}
+                      />
+                    }
+                    label={
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          fontWeight: selected ? 800 : 600,
+                          color: selected ? '#1A1C24' : '#4A5060',
+                          fontSize: '0.85rem',
+                        }}
+                      >
+                        {opt.label}
+                      </Typography>
+                    }
+                    sx={{ width: '100%', m: 0 }}
+                  />
+                </Box>
+              );
+            })}
+          </RadioGroup>
+
+          {/* Action Buttons */}
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', pt: 1.5, borderTop: '1px solid #F5F6FA' }}>
+            <Button
+              variant="text"
+              size="small"
+              startIcon={<ArrowBackIcon sx={{ fontSize: 16 }} />}
+              disabled={currentIndex === 0}
+              onClick={handlePrev}
+              sx={{
+                color: '#7E8494',
+                fontWeight: 700,
+                fontSize: '0.8rem',
+                textTransform: 'none',
+                '&:hover': { color: '#635BFF', bgcolor: 'transparent' },
+              }}
+            >
+              Previous
+            </Button>
+
+            <Stack direction="row" spacing={1.5}>
+              {!isLastQuestion ? (
+                <Button
+                  variant="contained"
+                  size="small"
+                  endIcon={<ArrowForwardIcon sx={{ fontSize: 16 }} />}
+                  disabled={!isAnswered}
+                  onClick={handleNext}
+                  sx={{
+                    bgcolor: '#635BFF',
+                    fontWeight: 700,
+                    borderRadius: 2.5,
+                    px: 2.5,
+                    py: 0.7,
+                    fontSize: '0.82rem',
+                    textTransform: 'none',
+                    boxShadow: '0 4px 12px rgba(99, 91, 255, 0.25)',
+                    '&:hover': { bgcolor: '#534BE8' },
+                  }}
+                >
+                  Next Question
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="success"
+                  startIcon={<CheckCircleIcon sx={{ fontSize: 16 }} />}
+                  disabled={!isAllAnswered || submitting}
+                  onClick={handleSubmit}
+                  sx={{
+                    bgcolor: '#00D097',
+                    fontWeight: 800,
+                    borderRadius: 2.5,
+                    px: 3,
+                    py: 0.8,
+                    fontSize: '0.82rem',
+                    textTransform: 'none',
+                    boxShadow: '0 4px 14px rgba(0, 208, 151, 0.25)',
+                    '&:hover': { bgcolor: '#00B885' },
+                  }}
+                >
+                  {submitting ? 'Submitting...' : 'Submit Assessment'}
+                </Button>
+              )}
+            </Stack>
+          </Box>
+        </Paper>
+      </Stack>
     </AppLayout>
   );
 }

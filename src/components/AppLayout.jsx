@@ -1,14 +1,13 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Box,
-  Stack,
-  IconButton,
-  Tooltip,
   Typography,
   Avatar,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
-import LogoutIcon from '@mui/icons-material/LogoutRounded';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNoneRounded';
+import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import {
   DoodleDashboard,
   DoodleQuiz,
@@ -17,155 +16,262 @@ import {
   DoodleProfile,
 } from './DoodleIcons';
 
-function AppLayout({ children, activeTab = 'Dashboard' }) {
+const NAV_ITEMS = [
+  { label: 'Dashboard', path: '/dashboard', icon: DoodleDashboard },
+  { label: 'RIASEC Test', path: '/assessment', icon: DoodleQuiz },
+  { label: 'Specialties', path: '/specialties', icon: DoodleExplore },
+  { label: 'Recommendations', path: '/recommendations', icon: DoodleRecommend },
+  { label: 'Profile', path: '/profile', icon: DoodleProfile },
+];
+
+function AppLayout({ children, activeTab }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const userName = localStorage.getItem('fullName') || 'Student';
+
+  const fullName = localStorage.getItem('fullName') || 'Student';
+  const firstLetter = fullName.trim().charAt(0).toUpperCase() || 'S';
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('fullName');
     localStorage.removeItem('email');
     localStorage.removeItem('role');
-    navigate('/login');
+    navigate('/'); // 🌟 يرجع مباشرة للصفحة العامة الرئيسية
   };
 
-  const navItems = [
-    { title: 'Dashboard', path: '/dashboard', icon: <DoodleDashboard sx={{ fontSize: 24 }} /> },
-    { title: 'RIASEC Test', path: '/assessment', icon: <DoodleQuiz sx={{ fontSize: 24 }} /> },
-    { title: 'Specialties', path: '/specialties', icon: <DoodleExplore sx={{ fontSize: 24 }} /> },
-    { title: 'Recommendations', path: '/recommendations', icon: <DoodleRecommend sx={{ fontSize: 24 }} /> },
-    { title: 'Profile', path: '/profile', icon: <DoodleProfile sx={{ fontSize: 24 }} /> },
-  ];
-
   return (
-    <Box sx={{ display: 'flex', bgcolor: '#F5F6FA', minHeight: '100vh', p: { xs: 1.5, md: 3 } }}>
-      {/* Curved Sidebar */}
+    <Box
+      sx={{
+        display: 'flex',
+        height: '100vh',
+        width: '100vw',
+        overflow: 'hidden',
+        bgcolor: '#FBFBFE',
+        backgroundImage: 'radial-gradient(#E2E5EE 1.3px, transparent 1.3px)',
+        backgroundSize: '24px 24px',
+      }}
+    >
+      {/* 1. Left Vertical Sidebar */}
       <Box
+        component="aside"
         sx={{
-          width: 80,
-          bgcolor: '#635BFF',
-          borderRadius: 6,
-          display: { xs: 'none', md: 'flex' },
+          width: 76,
+          bgcolor: '#544BF0',
+          display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          py: 4,
-          boxShadow: '0 10px 40px rgba(99, 91, 255, 0.25)',
           justifyContent: 'space-between',
+          py: 2.5,
           flexShrink: 0,
+          zIndex: 1200,
+          boxShadow: '4px 0 24px rgba(84, 75, 240, 0.15)',
         }}
       >
-        <Stack spacing={3} sx={{ alignItems: 'center' }}>
-          <Box
-            sx={{
-              width: 46,
-              height: 46,
-              bgcolor: 'rgba(255,255,255,0.2)',
-              borderRadius: 3,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'white',
-              fontWeight: 900,
-              fontSize: '1.2rem',
-              cursor: 'pointer',
-            }}
-            onClick={() => navigate('/dashboard')}
-          >
-            O+
-          </Box>
+        {/* Logo O+ */}
+        <Box
+          onClick={() => navigate('/dashboard')}
+          sx={{
+            width: 44,
+            height: 44,
+            borderRadius: 3.5,
+            bgcolor: 'rgba(255, 255, 255, 0.2)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontWeight: 900,
+            fontSize: '1.2rem',
+            cursor: 'pointer',
+            transition: 'transform 0.15s ease',
+            '&:hover': { transform: 'scale(1.05)' },
+          }}
+        >
+          O+
+        </Box>
 
-          {navItems.map((item) => {
-            const isActive = location.pathname.startsWith(item.path);
+        {/* Sidebar Nav Icons */}
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, alignItems: 'center' }}>
+          {NAV_ITEMS.map((item) => {
+            const IconComponent = item.icon;
+            const isActive =
+              location.pathname === item.path ||
+              (item.label === 'Dashboard' && location.pathname === '/') ||
+              activeTab === item.label;
+
             return (
-              <Tooltip key={item.path} title={item.title} placement="right">
-                <IconButton
-                  sx={{
-                    color: isActive ? 'white' : 'rgba(255,255,255,0.7)',
-                    bgcolor: isActive ? 'rgba(255,255,255,0.25)' : 'transparent',
-                    borderRadius: 3,
-                    p: 1.2,
-                    '&:hover': { color: 'white', bgcolor: 'rgba(255,255,255,0.15)' },
-                  }}
+              <Tooltip key={item.path} title={item.label} placement="right" arrow>
+                <Box
                   onClick={() => navigate(item.path)}
+                  sx={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 3,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    bgcolor: isActive ? 'white' : 'transparent',
+                    color: isActive ? '#544BF0' : 'rgba(255, 255, 255, 0.75)',
+                    boxShadow: isActive ? '0 4px 12px rgba(0, 0, 0, 0.15)' : 'none',
+                    transition: 'all 0.2s ease',
+                    '&:hover': {
+                      bgcolor: isActive ? 'white' : 'rgba(255, 255, 255, 0.15)',
+                      color: isActive ? '#544BF0' : 'white',
+                    },
+                  }}
                 >
-                  {item.icon}
-                </IconButton>
+                  <IconComponent sx={{ fontSize: 22 }} />
+                </Box>
               </Tooltip>
             );
           })}
-        </Stack>
+        </Box>
 
-        <Tooltip title="Logout" placement="right">
+        {/* Logout Action */}
+        <Tooltip title="Logout" placement="right" arrow>
           <IconButton
-            sx={{ color: 'rgba(255,255,255,0.7)', '&:hover': { color: '#FF7B90' } }}
             onClick={handleLogout}
+            sx={{
+              color: 'rgba(255, 255, 255, 0.75)',
+              '&:hover': { color: '#FF708D', bgcolor: 'rgba(255, 255, 255, 0.1)' },
+            }}
           >
-            <LogoutIcon />
+            <LogoutRoundedIcon sx={{ fontSize: 22 }} />
           </IconButton>
         </Tooltip>
       </Box>
 
-      {/* Main Page Area */}
-      <Box sx={{ flexGrow: 1, pl: { xs: 0, md: 4 }, pr: { xs: 0, md: 1 }, overflowX: 'hidden' }}>
-        {/* Top Header */}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3.5 }}>
-          <Stack direction="row" spacing={3} sx={{ alignItems: 'center' }}>
-            {navItems.map((item) => {
-              const isActive = location.pathname.startsWith(item.path);
+      {/* 2. Main Page Layout */}
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          minWidth: 0,
+        }}
+      >
+        {/* Top Header Bar */}
+        <Box
+          component="header"
+          sx={{
+            height: 64,
+            px: 3.5,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexShrink: 0,
+            borderBottom: '1px solid rgba(240, 242, 247, 0.8)',
+            bgcolor: 'rgba(255, 255, 255, 0.75)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            zIndex: 1100,
+          }}
+        >
+          {/* Nav Links */}
+          <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
+            {NAV_ITEMS.map((item) => {
+              const isActive =
+                location.pathname === item.path ||
+                (item.label === 'Dashboard' && location.pathname === '/') ||
+                activeTab === item.label;
+
               return (
-                <Typography
+                <Box
                   key={item.path}
-                  variant="body2"
-                  fontWeight={isActive ? 800 : 500}
-                  sx={{
-                    color: isActive ? '#635BFF' : '#7E8494',
-                    borderBottom: isActive ? '2px solid #635BFF' : 'none',
-                    pb: 0.5,
-                    cursor: 'pointer',
-                    '&:hover': { color: '#635BFF' },
-                  }}
                   onClick={() => navigate(item.path)}
+                  sx={{
+                    cursor: 'pointer',
+                    py: 1,
+                    position: 'relative',
+                  }}
                 >
-                  {item.title}
-                </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: '0.86rem',
+                      fontWeight: isActive ? 800 : 600,
+                      color: isActive ? '#544BF0' : '#7E8494',
+                      transition: 'color 0.15s ease',
+                      '&:hover': { color: '#544BF0' },
+                    }}
+                  >
+                    {item.label}
+                  </Typography>
+
+                  {isActive && (
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        bottom: -10,
+                        left: 0,
+                        right: 0,
+                        height: 3,
+                        bgcolor: '#544BF0',
+                        borderRadius: 2,
+                      }}
+                    />
+                  )}
+                </Box>
               );
             })}
-          </Stack>
+          </Box>
 
-          <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-            <IconButton sx={{ bgcolor: 'white', borderRadius: 3, boxShadow: '0 4px 15px rgba(0,0,0,0.03)' }}>
-              <NotificationsNoneIcon sx={{ color: '#7E8494' }} />
+          {/* Right Header Controls */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+            <IconButton
+              size="small"
+              sx={{
+                width: 38,
+                height: 38,
+                borderRadius: 2.5,
+                bgcolor: 'white',
+                border: '1.5px solid #F0F2F7',
+                color: '#7E8494',
+                '&:hover': { bgcolor: '#F0F2F7' },
+              }}
+            >
+              <NotificationsNoneRoundedIcon sx={{ fontSize: 20 }} />
             </IconButton>
 
-            {/* Profile Avatar Button */}
-            <Tooltip title="My Profile" arrow>
+            <Tooltip title="View Profile" arrow>
               <Avatar
                 onClick={() => navigate('/profile')}
                 sx={{
-                  bgcolor: '#635BFF',
+                  width: 38,
+                  height: 38,
+                  borderRadius: 2.5,
+                  bgcolor: '#544BF0',
                   color: 'white',
-                  fontWeight: 800,
-                  width: 42,
-                  height: 42,
-                  borderRadius: 3,
+                  fontWeight: 900,
+                  fontSize: '0.95rem',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease-in-out',
-                  boxShadow: '0 4px 12px rgba(99, 91, 255, 0.25)',
-                  '&:hover': {
-                    transform: 'scale(1.06)',
-                    bgcolor: '#534BE8',
-                    boxShadow: '0 6px 18px rgba(99, 91, 255, 0.35)',
-                  },
+                  boxShadow: '0 4px 12px rgba(84, 75, 240, 0.3)',
+                  transition: 'transform 0.15s ease',
+                  '&:hover': { transform: 'scale(1.05)' },
                 }}
               >
-                {userName.charAt(0).toUpperCase()}
+                {firstLetter}
               </Avatar>
             </Tooltip>
-          </Stack>
+          </Box>
         </Box>
 
-        {children}
+        {/* 3. Scrollable Viewport */}
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            p: { xs: 2, md: 3 },
+            '&::-webkit-scrollbar': { width: '6px' },
+            '&::-webkit-scrollbar-track': { background: 'transparent' },
+            '&::-webkit-scrollbar-thumb': { background: '#D9DCE5', borderRadius: '6px' },
+            '&::-webkit-scrollbar-thumb:hover': { background: '#544BF0' },
+          }}
+        >
+          {children}
+        </Box>
       </Box>
     </Box>
   );

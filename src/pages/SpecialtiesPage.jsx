@@ -4,7 +4,6 @@ import {
   Box,
   Typography,
   Paper,
-  Grid,
   TextField,
   InputAdornment,
   CircularProgress,
@@ -12,11 +11,12 @@ import {
   Chip,
   Card,
   CardContent,
+  Stack,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/SearchRounded';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForwardRounded';
-import SchoolIcon from '@mui/icons-material/SchoolRounded';
 import AppLayout from '../components/AppLayout';
+import { DoodleExplore, DoodleGraduation } from '../components/DoodleIcons';
 import { getAllSpecialties, searchSpecialties } from '../api/specialtyApi';
 
 function SpecialtiesPage() {
@@ -48,92 +48,187 @@ function SpecialtiesPage() {
 
   return (
     <AppLayout activeTab="Specialties">
-      {/* Title & Search Header */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ fontWeight: 800, color: '#1A1C24', mb: 1 }}>
-          Career Specialties 🧭
-        </Typography>
-        <Typography variant="body2" sx={{ color: '#7E8494', mb: 3 }}>
-          Explore all tech paths, missions, required tools, and available roadmaps.
-        </Typography>
-
-        {/* Search Bar matching the modern rounded style */}
-        <Paper
-          component="form"
-          onSubmit={handleSearch}
+      <Stack spacing={2.5} sx={{ width: '100%', maxWidth: 1200, mx: 'auto' }}>
+        {/* Compact Header & Integrated Search Bar */}
+        <Box
           sx={{
-            p: '4px 16px',
             display: 'flex',
-            alignItems: 'center',
-            maxWidth: 540,
-            borderRadius: 4,
-            boxShadow: '0 8px 24px rgba(100, 110, 140, 0.05)',
-            border: '1.5px solid #F0F2F7',
+            justifyContent: 'space-between',
+            alignItems: { xs: 'flex-start', sm: 'center' },
+            flexDirection: { xs: 'column', sm: 'row' },
+            gap: 2,
           }}
         >
-          <TextField
-            fullWidth
-            placeholder="Search specialties by title, keywords, or tech..."
-            variant="standard"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            InputProps={{
-              disableUnderline: true,
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ color: '#7E8494', mr: 1 }} />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Button
-            type="submit"
-            variant="contained"
+          <Box>
+            <Box
+              sx={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 0.8,
+                px: 1.2,
+                py: 0.35,
+                bgcolor: '#EDEDFE',
+                borderRadius: 4,
+                mb: 0.6,
+              }}
+            >
+              <DoodleExplore sx={{ fontSize: 16, color: '#635BFF' }} />
+              <Typography variant="caption" sx={{ color: '#635BFF', fontWeight: 800, fontSize: '0.72rem', letterSpacing: 0.4 }}>
+                CAREER CATALOG
+              </Typography>
+            </Box>
+
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: 800,
+                letterSpacing: '-0.02em',
+                lineHeight: 1.2,
+                color: '#1A1C24',
+                fontSize: { xs: '1.4rem', md: '1.75rem' },
+              }}
+            >
+              Career{' '}
+              <Box
+                component="span"
+                sx={{
+                  background: 'linear-gradient(90deg, #635BFF 0%, #8F85FF 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                Specialties
+              </Box>
+            </Typography>
+          </Box>
+
+          {/* Search Bar */}
+          <Paper
+            component="form"
+            onSubmit={handleSearch}
             sx={{
-              borderRadius: 3,
-              px: 3,
-              py: 0.8,
-              bgcolor: '#635BFF',
-              fontWeight: 700,
-              textTransform: 'none',
+              p: '4px 12px',
+              display: 'flex',
+              alignItems: 'center',
+              width: { xs: '100%', sm: 340 },
+              borderRadius: 3.5,
+              bgcolor: 'white',
+              boxShadow: '0 4px 16px rgba(100, 110, 140, 0.04)',
+              border: '1.5px solid #F0F2F7',
+            }}
+          >
+            <TextField
+              fullWidth
+              placeholder="Search specialties or tech..."
+              variant="standard"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              InputProps={{
+                disableUnderline: true,
+                sx: { fontSize: '0.84rem' },
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon sx={{ color: '#8A90A2', fontSize: 18, mr: 0.5 }} />
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              size="small"
+              sx={{
+                borderRadius: 2.5,
+                px: 2,
+                py: 0.5,
+                bgcolor: '#635BFF',
+                fontWeight: 700,
+                fontSize: '0.78rem',
+                textTransform: 'none',
+                boxShadow: 'none',
+                '&:hover': { bgcolor: '#534BE8' },
+              }}
+            >
+              Search
+            </Button>
+          </Paper>
+        </Box>
+
+        {/* Content Area */}
+        {loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '55vh' }}>
+            <CircularProgress sx={{ color: '#635BFF' }} />
+          </Box>
+        ) : specialties.length === 0 ? (
+          <Paper
+            sx={{
+              p: 5,
+              textAlign: 'center',
+              borderRadius: 4.5,
+              bgcolor: 'white',
+              border: '1.5px solid #F0F2F7',
               boxShadow: 'none',
             }}
           >
-            Search
-          </Button>
-        </Paper>
-      </Box>
-
-      {/* Content Grid */}
-      {loading ? (
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
-          <CircularProgress sx={{ color: '#635BFF' }} />
-        </Box>
-      ) : (
-        <Grid container spacing={3}>
-          {specialties.map((spec) => (
-            <Grid key={spec.id} size={{ xs: 12, sm: 6, lg: 4 }}>
+            <Typography variant="body1" fontWeight="700" color="text.secondary">
+              No specialties matched your search query.
+            </Typography>
+          </Paper>
+        ) : (
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: {
+                xs: '1fr',
+                sm: 'repeat(2, 1fr)',
+                md: 'repeat(3, 1fr)',
+              },
+              gap: 2,
+              width: '100%',
+            }}
+          >
+            {specialties.map((spec) => (
               <Card
+                key={spec.id}
                 sx={{
-                  borderRadius: 5,
-                  p: 1.5,
-                  height: '100%',
+                  borderRadius: 4.5,
+                  p: 2,
+                  minHeight: 250,
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
                   border: '1.5px solid #F0F2F7',
-                  boxShadow: '0 8px 20px rgba(100, 110, 140, 0.04)',
-                  transition: '0.2s',
+                  bgcolor: 'white',
+                  boxShadow: '0 4px 20px rgba(100, 110, 140, 0.03)',
+                  transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                  position: 'relative',
+                  overflow: 'hidden',
                   '&:hover': {
                     borderColor: '#635BFF',
                     transform: 'translateY(-4px)',
                     boxShadow: '0 12px 30px rgba(99, 91, 255, 0.12)',
+                    '& .card-action-btn': {
+                      bgcolor: '#635BFF',
+                      color: 'white',
+                      borderColor: '#635BFF',
+                      boxShadow: '0 4px 12px rgba(99, 91, 255, 0.25)',
+                      '& .btn-arrow': {
+                        transform: 'translateX(3px)',
+                      },
+                    },
+                    '& .card-icon-box': {
+                      bgcolor: '#635BFF',
+                      color: 'white',
+                      transform: 'scale(1.05)',
+                    },
                   },
                 }}
               >
-                <CardContent sx={{ pb: 1 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <CardContent sx={{ p: 0.5, '&:last-child': { pb: 0.5 } }}>
+                  {/* Top Bar: Icon Box + Category Badge */}
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.8 }}>
                     <Box
+                      className="card-icon-box"
                       sx={{
                         width: 42,
                         height: 42,
@@ -143,71 +238,121 @@ function SpecialtiesPage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        transition: 'all 0.25s ease',
                       }}
                     >
-                      <SchoolIcon fontSize="small" />
+                      <DoodleGraduation sx={{ fontSize: 22 }} />
                     </Box>
-                    <Chip
-                      label="Tech Track"
-                      size="small"
-                      sx={{ bgcolor: '#F5F6FA', color: '#7E8494', fontWeight: 700, borderRadius: 2 }}
-                    />
+
+                    <Box
+                      sx={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 0.6,
+                        px: 1.2,
+                        py: 0.4,
+                        borderRadius: 2,
+                        bgcolor: '#FAFBFD',
+                        border: '1.2px solid #F0F2F7',
+                      }}
+                    >
+                      <Box sx={{ width: 5, height: 5, borderRadius: '50%', bgcolor: '#00D097' }} />
+                      <Typography sx={{ color: '#7E8494', fontWeight: 800, fontSize: '0.68rem', letterSpacing: 0.2 }}>
+                        TECH TRACK
+                      </Typography>
+                    </Box>
                   </Box>
 
-                  <Typography variant="h6" fontWeight="bold" gutterBottom sx={{ color: '#1A1C24' }}>
+                  {/* Title */}
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: 800,
+                      color: '#1A1C24',
+                      fontSize: '1.02rem',
+                      lineHeight: 1.3,
+                      mb: 0.8,
+                      letterSpacing: '-0.015em',
+                    }}
+                  >
                     {spec.name}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: '#7E8494', mb: 2, minHeight: 40, lineHeight: 1.5 }}>
+
+                  {/* Description */}
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: '#7E8494',
+                      fontSize: '0.82rem',
+                      lineHeight: 1.5,
+                      mb: 2,
+                      minHeight: 40,
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                    }}
+                  >
                     {spec.description}
                   </Typography>
 
-                  {/* Tools preview */}
+                  {/* Tools / Tech Badges */}
                   {spec.tools && (
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8, mb: 2 }}>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8, mb: 1 }}>
                       {spec.tools.split(',').slice(0, 3).map((tool, idx) => (
-                        <Chip
+                        <Box
                           key={idx}
-                          label={tool.trim()}
-                          size="small"
-                          sx={{ bgcolor: '#F5F6FA', color: '#4A5060', fontSize: '0.75rem', fontWeight: 600 }}
-                        />
+                          sx={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 0.6,
+                            px: 1,
+                            py: 0.35,
+                            borderRadius: 2,
+                            bgcolor: '#FAFBFD',
+                            border: '1px solid #ECEEF3',
+                          }}
+                        >
+                          <Typography sx={{ color: '#3A4050', fontSize: '0.72rem', fontWeight: 700 }}>
+                            {tool.trim()}
+                          </Typography>
+                        </Box>
                       ))}
                     </Box>
                   )}
                 </CardContent>
 
-                <Box sx={{ p: 2, pt: 0 }}>
+                {/* Bottom Action Button */}
+                <Box sx={{ pt: 1.5 }}>
                   <Button
                     fullWidth
+                    className="card-action-btn"
                     variant="outlined"
-                    endIcon={<ArrowForwardIcon />}
+                    size="small"
                     onClick={() => navigate(`/specialties/${spec.id}`)}
                     sx={{
-                      borderRadius: 3,
+                      borderRadius: 2.8,
                       borderColor: '#E2E5EE',
                       color: '#635BFF',
-                      fontWeight: 700,
-                      '&:hover': { bgcolor: '#EDEDFE', borderColor: '#635BFF' },
+                      bgcolor: '#FBFBFE',
+                      fontWeight: 800,
+                      fontSize: '0.8rem',
+                      py: 0.8,
+                      textTransform: 'none',
+                      transition: 'all 0.2s ease',
                     }}
                   >
-                    View Details
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.8, width: '100%' }}>
+                      <span>View Details</span>
+                      <ArrowForwardIcon className="btn-arrow" sx={{ fontSize: 16, transition: 'transform 0.2s ease' }} />
+                    </Box>
                   </Button>
                 </Box>
               </Card>
-            </Grid>
-          ))}
-
-          {specialties.length === 0 && (
-            <Grid size={{ xs: 12 }}>
-              <Paper sx={{ p: 5, textAlign: 'center', borderRadius: 5 }}>
-                <Typography variant="h6" color="text.secondary">
-                  No specialties matched your search.
-                </Typography>
-              </Paper>
-            </Grid>
-          )}
-        </Grid>
-      )}
+            ))}
+          </Box>
+        )}
+      </Stack>
     </AppLayout>
   );
 }

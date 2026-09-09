@@ -13,11 +13,14 @@ import {
   Card,
   CardContent,
 } from '@mui/material';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesomeRounded';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForwardRounded';
 import ReplayIcon from '@mui/icons-material/ReplayRounded';
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremiumRounded';
 import AppLayout from '../components/AppLayout';
+import {
+  DoodleRecommend,
+  DoodleTrophy,
+  DoodleQuiz,
+} from '../components/DoodleIcons';
 import { generateRecommendations, getLatestRecommendations } from '../api/recommendationApi';
 
 function RecommendationsPage() {
@@ -56,7 +59,7 @@ function RecommendationsPage() {
     );
   }
 
-  // فلترة الدوبلاج + أخذ الـ Top 3 فقط
+  // إزالة التكرار واختيار أفضل 3 مسارات
   const top3Recommendations = recommendations
     .filter(
       (rec, index, self) =>
@@ -71,14 +74,61 @@ function RecommendationsPage() {
 
   return (
     <AppLayout activeTab="Recommendations">
-      {/* Header Section */}
+      {/* Modern Clean Header */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 2, mb: 4 }}>
         <Box>
-          <Typography variant="h4" sx={{ fontWeight: 800, color: '#1A1C24', mb: 1 }}>
-            Career Recommendations 🎯
+          <Box
+            sx={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 1,
+              px: 1.6,
+              py: 0.6,
+              bgcolor: '#EDEDFE',
+              borderRadius: 5,
+              mb: 1.5,
+            }}
+          >
+            <DoodleRecommend sx={{ fontSize: 18, color: '#635BFF' }} />
+            <Typography variant="caption" sx={{ color: '#635BFF', fontWeight: 800, letterSpacing: 0.5 }}>
+              AI MATCH ENGINE
+            </Typography>
+          </Box>
+
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 800,
+              letterSpacing: '-0.03em',
+              lineHeight: 1.3,
+              color: '#1A1C24',
+              fontSize: { xs: '1.75rem', md: '2.2rem' },
+            }}
+          >
+            Career{' '}
+            <Box
+              component="span"
+              sx={{
+                background: 'linear-gradient(90deg, #635BFF 0%, #8F85FF 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              Recommendations
+            </Box>
           </Typography>
-          <Typography variant="body2" sx={{ color: '#7E8494' }}>
-            Personalized matches generated from your RIASEC Holland test answers.
+
+          <Typography
+            variant="body2"
+            sx={{
+              color: '#7E8494',
+              mt: 1,
+              fontSize: '0.95rem',
+              maxWidth: 580,
+              lineHeight: 1.6,
+            }}
+          >
+            Personalized matches generated from your RIASEC evaluation scores.
           </Typography>
         </Box>
 
@@ -102,18 +152,51 @@ function RecommendationsPage() {
       </Box>
 
       {top3Recommendations.length === 0 ? (
-        <Paper sx={{ p: 6, textAlign: 'center', borderRadius: 6, bgcolor: 'white', border: '1.5px solid #F0F2F7' }}>
-          <AutoAwesomeIcon sx={{ fontSize: 48, color: '#635BFF', mb: 2 }} />
+        <Paper
+          sx={{
+            p: 6,
+            textAlign: 'center',
+            borderRadius: 6,
+            bgcolor: 'white',
+            border: '1.5px solid #F0F2F7',
+            boxShadow: '0 8px 30px rgba(100, 110, 140, 0.04)',
+          }}
+        >
+          <Box
+            sx={{
+              width: 64,
+              height: 64,
+              bgcolor: '#EDEDFE',
+              borderRadius: 4,
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#635BFF',
+              mb: 2,
+            }}
+          >
+            <DoodleRecommend sx={{ fontSize: 34 }} />
+          </Box>
           <Typography variant="h6" fontWeight="bold" sx={{ color: '#1A1C24', mb: 1 }}>
             No Career Recommendations Yet
           </Typography>
-          <Typography variant="body2" sx={{ color: '#7E8494', mb: 3, maxWidth: 460, mx: 'auto' }}>
-            Complete the interactive RIASEC assessment test to discover your Holland personality profile and best tech paths.
+          <Typography variant="body2" sx={{ color: '#7E8494', mb: 3, maxWidth: 460, mx: 'auto', lineHeight: 1.6 }}>
+            Complete the interactive RIASEC assessment test to discover your personality profile and matching tech paths.
           </Typography>
           <Button
             variant="contained"
+            startIcon={<DoodleQuiz sx={{ fontSize: 20 }} />}
             onClick={() => navigate('/assessment')}
-            sx={{ bgcolor: '#635BFF', fontWeight: 700, borderRadius: 3.5, px: 3.5, py: 1.2 }}
+            sx={{
+              bgcolor: '#635BFF',
+              fontWeight: 700,
+              borderRadius: 3.5,
+              px: 3.5,
+              py: 1.2,
+              textTransform: 'none',
+              boxShadow: '0 8px 24px rgba(99, 91, 255, 0.25)',
+              '&:hover': { bgcolor: '#534BE8' },
+            }}
           >
             Start RIASEC Test
           </Button>
@@ -140,7 +223,7 @@ function RecommendationsPage() {
               <Box sx={{ maxWidth: 650 }}>
                 <Stack direction="row" spacing={1} sx={{ alignItems: 'center', mb: 1.5 }}>
                   <Chip
-                    icon={<WorkspacePremiumIcon sx={{ color: '#FFD700 !important' }} />}
+                    icon={<DoodleTrophy sx={{ fontSize: '18px !important', color: '#FFD700 !important' }} />}
                     label="#1 BEST COMPATIBILITY"
                     sx={{ bgcolor: 'rgba(255,255,255,0.2)', color: 'white', fontWeight: 800, letterSpacing: 0.5 }}
                   />
@@ -175,6 +258,7 @@ function RecommendationsPage() {
                     fontWeight: 800,
                     borderRadius: 3,
                     px: 3,
+                    textTransform: 'none',
                     '&:hover': { bgcolor: '#F0EFFF' },
                   }}
                 >
@@ -268,6 +352,7 @@ function RecommendationsPage() {
                           borderColor: '#E2E5EE',
                           color: '#635BFF',
                           fontWeight: 700,
+                          textTransform: 'none',
                           '&:hover': { bgcolor: '#EDEDFE', borderColor: '#635BFF' },
                         }}
                       >

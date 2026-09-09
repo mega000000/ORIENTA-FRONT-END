@@ -1,5 +1,6 @@
 // src/App.jsx
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import OnboardingPage from './pages/OnboardingPage';
@@ -18,7 +19,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
@@ -112,8 +113,8 @@ function App() {
           }
         />
 
-        {/* Fallback */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        {/* Fallback - Redirect unknown URLs to the public Landing Page */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

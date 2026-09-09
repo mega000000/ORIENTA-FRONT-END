@@ -17,7 +17,7 @@ export function DoodleDashboard(props) {
   );
 }
 
-// 2. Assessment / Quiz Icon (Sticky Note / Card Doodle like the screenshot)
+// 2. Assessment / Quiz Icon (Sticky Note / Card Doodle)
 export function DoodleQuiz(props) {
   return (
     <SvgIcon viewBox="0 0 24 24" {...props}>
@@ -82,7 +82,7 @@ export function DoodleProfile(props) {
   );
 }
 
-// 6. Calendar / Notebook Doodle (Exactly like your reference image!)
+// 6. Calendar / Notebook Doodle
 export function DoodleCalendar(props) {
   return (
     <SvgIcon viewBox="0 0 24 24" {...props}>
@@ -120,6 +120,37 @@ export function DoodleGraduation(props) {
       <polygon points="12,3 2,8 12,13 22,8" fill="#635BFF" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
       <path d="M6 10.5v5c0 2 3 3.5 6 3.5s6-1.5 6-3.5v-5" stroke="currentColor" strokeWidth="1.8" fill="none" />
       <path d="M22 8v6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </SvgIcon>
+  );
+}
+
+// 9. Brain / Assessment Doodle
+export function DoodleBrain(props) {
+  return (
+    <SvgIcon viewBox="0 0 24 24" {...props}>
+      {/* Subtle Purple Accent Backing */}
+      <path
+        d="M9.5 4.5a3.5 3.5 0 00-3.5 3.5c0 .35.08.68.2 1A3.5 3.5 0 004 12a3.5 3.5 0 002.5 3.3v.2A3.5 3.5 0 0010 19h2a3.5 3.5 0 003.5-3.5v-.2A3.5 3.5 0 0018 12a3.5 3.5 0 00-2.2-3.4c.1-.32.2-.65.2-1.1A3.5 3.5 0 0012.5 4.5h-3z"
+        fill="#635BFF"
+        fillOpacity="0.2"
+      />
+      {/* Hand-Drawn Brain Outlines */}
+      <path
+        d="M12 4.5v14.5M9.5 4.5a3.5 3.5 0 00-3.5 3.5c0 .35.08.68.2 1A3.5 3.5 0 004 12a3.5 3.5 0 002.5 3.3v.2A3.5 3.5 0 0010 19h2a3.5 3.5 0 003.5-3.5v-.2A3.5 3.5 0 0018 12a3.5 3.5 0 00-2.2-3.4c.1-.32.2-.65.2-1.1A3.5 3.5 0 0012.5 4.5h-3z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      {/* Inner gyri curves */}
+      <path
+        d="M8 8.5c1 1 2 1 2 2.5M14 11c0-1.5 1-1.5 2-2.5M7.5 14c1.5 0 2 .5 2.5 1.5M14 15.5c.5-1 1-1.5 2.5-1.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        fill="none"
+      />
     </SvgIcon>
   );
 }

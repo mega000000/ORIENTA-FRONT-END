@@ -8,10 +8,10 @@ import {
   CircularProgress,
   Grid,
   Avatar,
-  LinearProgress,
   Button,
   Card,
   CardContent,
+  Stack,
 } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForwardRounded';
 import AppLayout from '../components/AppLayout';
@@ -20,6 +20,7 @@ import {
   DoodleCalendar,
   DoodleGraduation,
   DoodleTrophy,
+  DoodleRecommend,
 } from '../components/DoodleIcons';
 import { getUserSpecialty } from '../api/specialtyApi';
 import { getMyGamification } from '../api/gamificationApi';
@@ -77,7 +78,7 @@ function DashboardPage() {
   if (loading) {
     return (
       <AppLayout activeTab="Dashboard">
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
           <CircularProgress sx={{ color: '#635BFF' }} />
         </Box>
       </AppLayout>
@@ -94,425 +95,575 @@ function DashboardPage() {
 
   return (
     <AppLayout activeTab="Dashboard">
-      {/* Welcome Banner + Quick Stat Cards */}
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid size={{ xs: 12, lg: 5 }}>
-          <Box sx={{ py: 1, mb: 1 }}>
-            {/* Clean User Badge */}
-            <Box
-              sx={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 1,
-                px: 1.6,
-                py: 0.6,
-                bgcolor: '#EDEDFE',
-                borderRadius: 5,
-                mb: 2,
-              }}
-            >
-              <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: '#635BFF' }} />
-              <Typography variant="caption" sx={{ color: '#635BFF', fontWeight: 800, letterSpacing: 0.4 }}>
-                HELLO, {userName.toUpperCase()}
-              </Typography>
-            </Box>
-
-            {/* Modern Clean Headline */}
-            <Typography
-              variant="h3"
-              sx={{
-                fontWeight: 800,
-                letterSpacing: '-0.03em',
-                lineHeight: 1.25,
-                color: '#1A1C24',
-                fontSize: { xs: '1.85rem', md: '2.4rem' },
-              }}
-            >
-              Ready to level up your{' '}
+      <Stack spacing={2.5} sx={{ width: '100%', maxWidth: 1200, mx: 'auto' }}>
+        {/* Row 1: Header + 3 Small Feature Cards */}
+        <Grid container spacing={2.5} alignItems="center">
+          <Grid size={{ xs: 12, md: 5 }}>
+            <Box sx={{ pr: { md: 2 } }}>
               <Box
-                component="span"
                 sx={{
-                  background: 'linear-gradient(90deg, #635BFF 0%, #8F85FF 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 0.8,
+                  px: 1.2,
+                  py: 0.4,
+                  bgcolor: '#EDEDFE',
+                  borderRadius: 4,
+                  mb: 1.2,
                 }}
               >
-                career path?
+                <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: '#635BFF' }} />
+                <Typography variant="caption" sx={{ color: '#635BFF', fontWeight: 800, fontSize: '0.72rem', letterSpacing: 0.3 }}>
+                  HELLO, {userName.toUpperCase()}
+                </Typography>
               </Box>
-            </Typography>
 
-            {/* Sub-text */}
-            <Typography
-              variant="body1"
-              sx={{
-                color: '#7E8494',
-                mt: 1.5,
-                maxWidth: 440,
-                lineHeight: 1.6,
-                fontSize: '0.95rem',
-                fontWeight: 500,
-              }}
-            >
-              ORIENTA+ helps you discover matching tech specialties, track learning roadmaps, and earn badges.
-            </Typography>
-
-            <Button
-              variant="contained"
-              startIcon={<DoodleQuiz sx={{ fontSize: 20 }} />}
-              onClick={() => navigate('/assessment')}
-              sx={{
-                mt: 3,
-                bgcolor: '#635BFF',
-                borderRadius: 3.5,
-                px: 3.5,
-                py: 1.2,
-                fontWeight: 700,
-                textTransform: 'none',
-                fontSize: '0.95rem',
-                boxShadow: '0 8px 24px rgba(99, 91, 255, 0.28)',
-                '&:hover': {
-                  bgcolor: '#534BE8',
-                  boxShadow: '0 10px 28px rgba(99, 91, 255, 0.38)',
-                },
-              }}
-            >
-              Start RIASEC Test
-            </Button>
-          </Box>
-        </Grid>
-
-        <Grid size={{ xs: 12, lg: 7 }}>
-          <Grid container spacing={2}>
-            <Grid size={{ xs: 12, sm: 4 }}>
-              <Paper
+              <Typography
+                variant="h4"
                 sx={{
-                  p: 2.5,
-                  borderRadius: 5,
-                  textAlign: 'center',
-                  height: '100%',
-                  bgcolor: 'white',
-                  border: '1.5px solid #F0F2F7',
-                  boxShadow: '0 4px 20px rgba(100, 110, 140, 0.04)',
+                  fontWeight: 800,
+                  letterSpacing: '-0.02em',
+                  lineHeight: 1.2,
+                  color: '#1A1C24',
+                  fontSize: { xs: '1.4rem', md: '1.75rem' },
                 }}
               >
-                <Avatar
+                Ready to level up your{' '}
+                <Box
+                  component="span"
                   sx={{
-                    bgcolor: '#EDEDFE',
-                    color: '#1A1C24',
-                    mx: 'auto',
-                    mb: 1.5,
-                    width: 52,
-                    height: 52,
-                    borderRadius: 3.5,
+                    background: 'linear-gradient(90deg, #635BFF 0%, #8F85FF 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
                   }}
                 >
-                  <DoodleCalendar sx={{ fontSize: 28 }} />
-                </Avatar>
-                <Typography variant="subtitle2" fontWeight="bold" sx={{ color: '#1A1C24' }}>
-                  Stay Focused
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Level {currentLevel.level} Achieved
-                </Typography>
-              </Paper>
-            </Grid>
+                  career path?
+                </Box>
+              </Typography>
 
-            <Grid size={{ xs: 12, sm: 4 }}>
-              <Paper
+              <Typography variant="body2" sx={{ color: '#7E8494', mt: 0.8, fontSize: '0.86rem', lineHeight: 1.5 }}>
+                ORIENTA+ helps you discover matching tech specialties, track roadmaps, and earn badges.
+              </Typography>
+
+              <Button
+                variant="contained"
+                size="small"
+                startIcon={<DoodleQuiz sx={{ fontSize: 18 }} />}
+                onClick={() => navigate('/assessment')}
                 sx={{
-                  p: 2.5,
-                  borderRadius: 5,
-                  textAlign: 'center',
-                  height: '100%',
-                  bgcolor: 'white',
-                  border: '1.5px solid #F0F2F7',
-                  boxShadow: '0 4px 20px rgba(100, 110, 140, 0.04)',
+                  mt: 2,
+                  bgcolor: '#635BFF',
+                  borderRadius: 2.5,
+                  px: 2.5,
+                  py: 0.8,
+                  fontSize: '0.82rem',
+                  fontWeight: 700,
+                  textTransform: 'none',
+                  boxShadow: '0 4px 14px rgba(99, 91, 255, 0.25)',
+                  '&:hover': { bgcolor: '#534BE8' },
                 }}
               >
-                <Avatar
-                  sx={{
-                    bgcolor: '#E6FAF5',
-                    color: '#1A1C24',
-                    mx: 'auto',
-                    mb: 1.5,
-                    width: 52,
-                    height: 52,
-                    borderRadius: 3.5,
-                  }}
-                >
-                  <DoodleGraduation sx={{ fontSize: 28 }} />
-                </Avatar>
-                <Typography variant="subtitle2" fontWeight="bold" sx={{ color: '#1A1C24' }}>
-                  Roadmap Steps
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Earn XP per completed task
-                </Typography>
-              </Paper>
-            </Grid>
+                Start RIASEC Test
+              </Button>
+            </Box>
+          </Grid>
 
-            <Grid size={{ xs: 12, sm: 4 }}>
-              <Paper
-                sx={{
-                  p: 2.5,
-                  borderRadius: 5,
-                  textAlign: 'center',
-                  height: '100%',
-                  bgcolor: 'white',
-                  border: '1.5px solid #F0F2F7',
-                  boxShadow: '0 4px 20px rgba(100, 110, 140, 0.04)',
-                }}
-              >
-                <Avatar
+          <Grid size={{ xs: 12, md: 7 }}>
+            <Grid container spacing={1.5}>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <Paper
                   sx={{
-                    bgcolor: '#FFF1F3',
-                    color: '#1A1C24',
-                    mx: 'auto',
-                    mb: 1.5,
-                    width: 52,
-                    height: 52,
-                    borderRadius: 3.5,
+                    p: 2,
+                    borderRadius: 4,
+                    textAlign: 'center',
+                    bgcolor: 'white',
+                    border: '1.5px solid #F0F2F7',
+                    boxShadow: '0 4px 18px rgba(100, 110, 140, 0.03)',
                   }}
                 >
-                  <DoodleTrophy sx={{ fontSize: 28 }} />
-                </Avatar>
-                <Typography variant="subtitle2" fontWeight="bold" sx={{ color: '#1A1C24' }}>
-                  Unlock Badges
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Certify career orientation
-                </Typography>
-              </Paper>
+                  <Avatar sx={{ bgcolor: '#FAFBFD', border: '1px solid #F0F2F7', color: '#1A1C24', mx: 'auto', mb: 1.2, width: 44, height: 44, borderRadius: 2.5 }}>
+                    <DoodleCalendar sx={{ fontSize: 22 }} />
+                  </Avatar>
+                  <Typography variant="subtitle2" fontWeight="800" sx={{ fontSize: '0.88rem', color: '#1A1C24' }}>
+                    Stay Focused
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: '#7E8494', fontSize: '0.74rem', fontWeight: 600 }}>
+                    Level {currentLevel.level} Achieved
+                  </Typography>
+                </Paper>
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    borderRadius: 4,
+                    textAlign: 'center',
+                    bgcolor: 'white',
+                    border: '1.5px solid #F0F2F7',
+                    boxShadow: '0 4px 18px rgba(100, 110, 140, 0.03)',
+                  }}
+                >
+                  <Avatar sx={{ bgcolor: '#FAFBFD', border: '1px solid #F0F2F7', color: '#1A1C24', mx: 'auto', mb: 1.2, width: 44, height: 44, borderRadius: 2.5 }}>
+                    <DoodleGraduation sx={{ fontSize: 22 }} />
+                  </Avatar>
+                  <Typography variant="subtitle2" fontWeight="800" sx={{ fontSize: '0.88rem', color: '#1A1C24' }}>
+                    Roadmap Steps
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: '#7E8494', fontSize: '0.74rem', fontWeight: 600 }}>
+                    Earn XP per task
+                  </Typography>
+                </Paper>
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    borderRadius: 4,
+                    textAlign: 'center',
+                    bgcolor: 'white',
+                    border: '1.5px solid #F0F2F7',
+                    boxShadow: '0 4px 18px rgba(100, 110, 140, 0.03)',
+                  }}
+                >
+                  <Avatar sx={{ bgcolor: '#FAFBFD', border: '1px solid #F0F2F7', color: '#1A1C24', mx: 'auto', mb: 1.2, width: 44, height: 44, borderRadius: 2.5 }}>
+                    <DoodleTrophy sx={{ fontSize: 22 }} />
+                  </Avatar>
+                  <Typography variant="subtitle2" fontWeight="800" sx={{ fontSize: '0.88rem', color: '#1A1C24' }}>
+                    Unlock Badges
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: '#7E8494', fontSize: '0.74rem', fontWeight: 600 }}>
+                    Career certification
+                  </Typography>
+                </Paper>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
 
-      {/* Main Grid */}
-      <Grid container spacing={3}>
-        {/* Target Specialty Card */}
-        <Grid size={{ xs: 12, md: 5 }}>
-          <Paper
-            sx={{
-              p: 3.5,
-              borderRadius: 6,
-              bgcolor: '#635BFF',
-              color: 'white',
-              minHeight: 280,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              boxShadow: '0 12px 35px rgba(99, 91, 255, 0.3)',
-            }}
-          >
-            <Box>
-              <Chip
-                label="TARGET CAREER"
-                sx={{
-                  bgcolor: 'rgba(255,255,255,0.2)',
-                  color: 'white',
-                  fontWeight: 800,
-                  letterSpacing: 0.5,
-                  mb: 2,
-                }}
-              />
-              <Typography variant="h5" fontWeight="bold" gutterBottom>
-                {specialty ? specialty.name : 'No Target Selected'}
-              </Typography>
-              <Typography variant="body2" sx={{ opacity: 0.85, mt: 1, lineHeight: 1.6 }}>
-                {specialty
-                  ? specialty.description
-                  : 'Choose your preferred specialty from the RIASEC recommendation test to activate your learning journey.'}
-              </Typography>
-            </Box>
-
-            <Box sx={{ mt: 3 }}>
-              {specialty ? (
-                <Button
-                  variant="contained"
-                  endIcon={<ArrowForwardIcon />}
-                  onClick={() => navigate(`/learning-paths/${specialty.id}`)}
-                  sx={{
-                    bgcolor: 'white',
-                    color: '#635BFF',
-                    fontWeight: 800,
-                    borderRadius: 3,
-                    px: 3,
-                    textTransform: 'none',
-                    '&:hover': { bgcolor: '#F0EFFF' },
-                  }}
-                >
-                  Continue Roadmap
-                </Button>
-              ) : (
-                <Button
-                  variant="outlined"
-                  onClick={() => navigate('/recommendations')}
-                  sx={{
-                    color: 'white',
-                    borderColor: 'white',
-                    fontWeight: 700,
-                    borderRadius: 3,
-                    textTransform: 'none',
-                    '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.1)' },
-                  }}
-                >
-                  Browse Matches
-                </Button>
-              )}
-            </Box>
-          </Paper>
-        </Grid>
-
-        {/* Gamification Progress */}
-        <Grid size={{ xs: 12, md: 7 }}>
-          <Paper
-            sx={{
-              p: 3.5,
-              borderRadius: 6,
-              bgcolor: 'white',
-              border: '1.5px solid #F0F2F7',
-              height: '100%',
-              boxShadow: '0 8px 30px rgba(100, 110, 140, 0.04)',
-            }}
-          >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-              <Box>
-                <Typography variant="h6" fontWeight="bold" sx={{ color: '#1A1C24' }}>
-                  Level {currentLevel.level}: {currentLevel.name}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Total XP: {xp}
-                </Typography>
-              </Box>
-              <Chip
-                label={`${xp} XP Earned`}
-                sx={{ bgcolor: '#EDEDFE', color: '#635BFF', fontWeight: 800, borderRadius: 2 }}
-              />
-            </Box>
-
-            <Box sx={{ my: 3 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                <Typography variant="caption" color="text.secondary">
-                  Next milestone: {nextLevel ? `Level ${nextLevel.level}` : 'Max'}
-                </Typography>
-                <Typography variant="caption" fontWeight="bold" sx={{ color: '#635BFF' }}>
-                  {nextLevel ? `${nextLevel.minXp - xp} XP needed` : 'Completed!'}
-                </Typography>
-              </Box>
-              <LinearProgress
-                variant="determinate"
-                value={progressToNext}
-                sx={{
-                  height: 9,
-                  borderRadius: 5,
-                  bgcolor: '#F5F6FA',
-                  '& .MuiLinearProgress-bar': { bgcolor: '#635BFF' },
-                }}
-              />
-            </Box>
-
-            <Typography variant="subtitle2" fontWeight="bold" mb={1.5} sx={{ color: '#1A1C24' }}>
-              Earned Badges
-            </Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-              {!gamification?.badges || gamification.badges.length === 0 ? (
-                <Typography variant="body2" color="text.secondary">
-                  No badges yet. Start steps to unlock your first badge!
-                </Typography>
-              ) : (
-                gamification.badges.map((badge, idx) => (
-                  <Chip
-                    key={idx}
-                    icon={<DoodleTrophy sx={{ fontSize: '18px !important', color: '#FF6482 !important' }} />}
-                    label={badge}
-                    sx={{
-                      bgcolor: '#FFF1F3',
-                      color: '#FF6482',
-                      fontWeight: 700,
-                      borderRadius: 2.5,
-                    }}
-                  />
-                ))
-              )}
-            </Box>
-          </Paper>
-        </Grid>
-
-        {/* Matches */}
-        {uniqueRecommendations.length > 0 && (
-          <Grid size={{ xs: 12 }}>
+        {/* Row 2: Target Career + Gamified Level Progression */}
+        <Grid container spacing={2.5} alignItems="stretch">
+          {/* Solid Target Career Card */}
+          <Grid size={{ xs: 12, md: 5 }}>
             <Paper
               sx={{
-                p: 3.5,
-                borderRadius: 6,
-                bgcolor: 'white',
-                border: '1.5px solid #F0F2F7',
-                mt: 1,
-                boxShadow: '0 8px 30px rgba(100, 110, 140, 0.04)',
+                p: 3,
+                borderRadius: 4.5,
+                bgcolor: '#635BFF',
+                color: 'white',
+                minHeight: 220,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                boxShadow: '0 12px 32px rgba(99, 91, 255, 0.22)',
               }}
             >
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                <Typography variant="h6" fontWeight="bold" sx={{ color: '#1A1C24' }}>
-                  Top RIASEC Matches
-                </Typography>
-                <Button
+              <Box>
+                <Chip
+                  label="TARGET CAREER"
                   size="small"
-                  onClick={() => navigate('/recommendations')}
-                  sx={{ color: '#635BFF', fontWeight: 700, textTransform: 'none' }}
+                  sx={{ bgcolor: 'rgba(255,255,255,0.2)', color: 'white', fontWeight: 800, fontSize: '0.65rem', mb: 1.5 }}
+                />
+                <Typography variant="h6" fontWeight="800" sx={{ fontSize: '1.25rem', mb: 0.8, letterSpacing: '-0.01em' }}>
+                  {specialty ? specialty.name : 'No Target Selected'}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    opacity: 0.9,
+                    fontSize: '0.85rem',
+                    lineHeight: 1.5,
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
                 >
-                  View All Matches →
-                </Button>
+                  {specialty
+                    ? specialty.description
+                    : 'Choose your preferred specialty from the RIASEC recommendation test to activate your roadmap.'}
+                </Typography>
               </Box>
 
-              <Grid container spacing={2}>
-                {uniqueRecommendations.slice(0, 3).map((rec, index) => (
-                  <Grid key={`${rec.specialtyId || rec.id}-${index}`} size={{ xs: 12, sm: 6, md: 4 }}>
+              <Box sx={{ mt: 3 }}>
+                {specialty ? (
+                  <Button
+                    variant="contained"
+                    size="small"
+                    endIcon={<ArrowForwardIcon sx={{ fontSize: 16 }} />}
+                    onClick={() => navigate(`/learning-paths/${specialty.id}`)}
+                    sx={{
+                      bgcolor: 'white',
+                      color: '#635BFF',
+                      fontWeight: 800,
+                      borderRadius: 2.5,
+                      px: 2.5,
+                      py: 0.8,
+                      fontSize: '0.82rem',
+                      textTransform: 'none',
+                      '&:hover': { bgcolor: '#F5F6FA', transform: 'translateY(-1px)' },
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    Continue Roadmap
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => navigate('/recommendations')}
+                    sx={{
+                      color: 'white',
+                      borderColor: 'rgba(255,255,255,0.5)',
+                      fontWeight: 700,
+                      borderRadius: 2.5,
+                      px: 2.5,
+                      textTransform: 'none',
+                      '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.1)' }
+                    }}
+                  >
+                    Browse Matches
+                  </Button>
+                )}
+              </Box>
+            </Paper>
+          </Grid>
+
+          {/* Gamified Level & XP Card (Solid White) */}
+          <Grid size={{ xs: 12, md: 7 }}>
+            <Paper
+              sx={{
+                p: 3,
+                borderRadius: 4.5,
+                bgcolor: 'white',
+                border: '1.5px solid #F0F2F7',
+                boxShadow: '0 4px 18px rgba(100, 110, 140, 0.03)',
+                minHeight: 220,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+              }}
+            >
+              {/* Header: Level Rank Badge + Total XP Chip */}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Stack direction="row" spacing={2} alignItems="center">
+                  <Box
+                    sx={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 3.5,
+                      bgcolor: '#FBFBFE',
+                      border: '1.5px solid #635BFF',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Typography sx={{ fontSize: '0.65rem', fontWeight: 900, color: '#635BFF', lineHeight: 1 }}>
+                      LVL
+                    </Typography>
+                    <Typography sx={{ fontSize: '1.2rem', fontWeight: 900, color: '#635BFF', lineHeight: 1 }}>
+                      {currentLevel.level}
+                    </Typography>
+                  </Box>
+
+                  <Box>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#1A1C24', fontSize: '1.05rem', lineHeight: 1.2 }}>
+                      {currentLevel.name}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: '#7E8494', fontWeight: 600, fontSize: '0.78rem' }}>
+                      Current Rank Tier
+                    </Typography>
+                  </Box>
+                </Stack>
+
+                <Box
+                  sx={{
+                    px: 2,
+                    py: 0.8,
+                    borderRadius: 3,
+                    bgcolor: '#2B2D31',
+                    color: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.8,
+                  }}
+                >
+                  <DoodleTrophy sx={{ fontSize: 16, color: '#FFD700' }} />
+                  <Typography sx={{ fontWeight: 800, fontSize: '0.85rem', letterSpacing: 0.3 }}>
+                    {xp}{' '}
+                    <Box component="span" sx={{ color: '#8F85FF', fontWeight: 700, fontSize: '0.75rem' }}>
+                      XP
+                    </Box>
+                  </Typography>
+                </Box>
+              </Box>
+
+              {/* Center: XP Progress Bar */}
+              <Box sx={{ my: 2 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                  <Typography variant="caption" sx={{ color: '#7E8494', fontWeight: 700, fontSize: '0.78rem' }}>
+                    Progress to Level {nextLevel ? nextLevel.level : 'MAX'}
+                  </Typography>
+                  <Typography variant="caption" sx={{ fontWeight: 800, color: '#635BFF', fontSize: '0.78rem' }}>
+                    {nextLevel ? `${nextLevel.minXp - xp} XP needed` : 'Max Level Reached!'}
+                  </Typography>
+                </Box>
+
+                <Box
+                  sx={{
+                    position: 'relative',
+                    height: 12,
+                    borderRadius: 6,
+                    bgcolor: '#F5F6FA',
+                    p: '2px',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      height: '100%',
+                      width: `${progressToNext}%`,
+                      borderRadius: 5,
+                      background: 'linear-gradient(90deg, #00D097 0%, #635BFF 100%)',
+                      transition: 'width 0.4s ease-in-out',
+                    }}
+                  />
+                </Box>
+              </Box>
+
+              {/* Footer: Unlocked Achievements */}
+              <Box sx={{ pt: 1.5, borderTop: '1px solid #F5F6FA' }}>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    fontWeight: 800,
+                    color: '#8A90A2',
+                    letterSpacing: 0.6,
+                    fontSize: '0.7rem',
+                    display: 'block',
+                    mb: 1.2,
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  Unlocked Achievements
+                </Typography>
+
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.2 }}>
+                  {!gamification?.badges || gamification.badges.length === 0 ? (
+                    <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.78rem', fontWeight: 600 }}>
+                      No badges unlocked yet. Complete tasks to earn achievements!
+                    </Typography>
+                  ) : (
+                    gamification.badges.map((badge, idx) => (
+                      <Box
+                        key={idx}
+                        sx={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 1,
+                          px: 1.5,
+                          py: 0.6,
+                          borderRadius: 3,
+                          bgcolor: '#FAFBFD',
+                          border: '1.2px solid #F0F2F7',
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            width: 24,
+                            height: 24,
+                            borderRadius: 2,
+                            bgcolor: '#EDEDFE',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#635BFF',
+                          }}
+                        >
+                          <DoodleTrophy sx={{ fontSize: 13 }} />
+                        </Box>
+                        <Typography sx={{ fontSize: '0.8rem', fontWeight: 800, color: '#1A1C24' }}>
+                          {badge}
+                        </Typography>
+                        <Box sx={{ width: 5, height: 5, borderRadius: '50%', bgcolor: '#00D097' }} />
+                      </Box>
+                    ))
+                  )}
+                </Box>
+              </Box>
+            </Paper>
+          </Grid>
+        </Grid>
+
+        {/* Row 3: Bottom RIASEC Top Matches (Solid White) */}
+        {uniqueRecommendations.length > 0 && (
+          <Paper
+            sx={{
+              p: 2.5,
+              borderRadius: 4.5,
+              width: '100%',
+              boxSizing: 'border-box',
+              bgcolor: 'white',
+              border: '1.5px solid #F0F2F7',
+              boxShadow: '0 4px 18px rgba(100, 110, 140, 0.03)',
+            }}
+          >
+            {/* Header */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+              <Stack direction="row" spacing={1.2} alignItems="center">
+                <Box
+                  sx={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: 2,
+                    bgcolor: '#EDEDFE',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#635BFF',
+                  }}
+                >
+                  <DoodleRecommend sx={{ fontSize: 16 }} />
+                </Box>
+                <Typography variant="subtitle1" fontWeight="800" sx={{ color: '#1A1C24', fontSize: '0.98rem' }}>
+                  Top RIASEC Matches
+                </Typography>
+              </Stack>
+
+              <Button
+                size="small"
+                onClick={() => navigate('/recommendations')}
+                sx={{
+                  color: '#635BFF',
+                  fontWeight: 800,
+                  fontSize: '0.8rem',
+                  textTransform: 'none',
+                  p: '6px 12px',
+                  borderRadius: 2,
+                  '&:hover': { bgcolor: '#F5F6FA' },
+                }}
+              >
+                View All →
+              </Button>
+            </Box>
+
+            {/* Cards Grid */}
+            <Grid container spacing={2}>
+              {uniqueRecommendations.slice(0, 3).map((rec, index) => {
+                const score = rec.score || 0;
+                const rankColor = index === 0 ? '#635BFF' : index === 1 ? '#00D097' : '#FF9500';
+                const rankBg = index === 0 ? '#EDEDFE' : index === 1 ? '#E6FAF5' : '#FFF7E6';
+
+                return (
+                  <Grid key={`${rec.specialtyId || rec.id}-${index}`} size={{ xs: 12, sm: 4 }}>
                     <Card
+                      elevation={0}
                       sx={{
-                        borderRadius: 4,
+                        borderRadius: 3.5,
                         cursor: 'pointer',
-                        boxShadow: 'none',
                         border: '1.5px solid #F0F2F7',
-                        transition: '0.2s',
+                        bgcolor: 'white',
+                        transition: 'all 0.2s ease',
                         '&:hover': {
                           borderColor: '#635BFF',
-                          transform: 'translateY(-3px)',
-                          boxShadow: '0 8px 25px rgba(99, 91, 255, 0.08)',
+                          transform: 'translateY(-2px)',
+                          boxShadow: '0 8px 24px rgba(99, 91, 255, 0.12)',
+                          '& .arrow-btn': {
+                            transform: 'translateX(3px)',
+                            color: '#635BFF',
+                          },
                         },
                       }}
                       onClick={() => navigate(`/specialties/${rec.specialtyId}`)}
                     >
-                      <CardContent sx={{ p: 2.5 }}>
-                        <Typography variant="subtitle1" fontWeight="bold" sx={{ color: '#1A1C24' }}>
-                          {rec.specialtyName}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1.5 }}>
-                          Compatibility Score
-                        </Typography>
-                        <LinearProgress
-                          variant="determinate"
-                          value={rec.score || 0}
-                          sx={{
-                            height: 6,
-                            borderRadius: 3,
-                            bgcolor: '#F5F6FA',
-                            '& .MuiLinearProgress-bar': { bgcolor: '#00D097' },
-                            mb: 1,
-                          }}
-                        />
-                        <Typography variant="body2" fontWeight="800" sx={{ color: '#00D097' }}>
-                          {rec.score?.toFixed(1)}% Match
-                        </Typography>
+                      <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
+                        {/* Top Row: Rank Tag + Score Pill */}
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
+                          <Box
+                            sx={{
+                              px: 1.2,
+                              py: 0.4,
+                              borderRadius: 1.8,
+                              bgcolor: rankBg,
+                              color: rankColor,
+                              fontSize: '0.7rem',
+                              fontWeight: 900,
+                              letterSpacing: 0.3,
+                            }}
+                          >
+                            #{index + 1} MATCH
+                          </Box>
+
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 0.5,
+                              px: 1.2,
+                              py: 0.4,
+                              borderRadius: 2,
+                              bgcolor: '#E6FAF5',
+                            }}
+                          >
+                            <Typography sx={{ color: '#00D097', fontWeight: 900, fontSize: '0.8rem' }}>
+                              {score.toFixed(1)}%
+                            </Typography>
+                          </Box>
+                        </Box>
+
+                        {/* Specialty Name + Arrow */}
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.2 }}>
+                          <Typography
+                            variant="subtitle2"
+                            fontWeight="800"
+                            noWrap
+                            sx={{ color: '#1A1C24', fontSize: '0.92rem' }}
+                          >
+                            {rec.specialtyName}
+                          </Typography>
+                          <ArrowForwardIcon
+                            className="arrow-btn"
+                            sx={{ fontSize: 18, color: '#A0A7BA', transition: 'transform 0.2s ease, color 0.2s ease' }}
+                          />
+                        </Box>
+
+                        {/* Progress Bar */}
+                        <Box sx={{ mt: 1.5 }}>
+                          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.6 }}>
+                            <Typography variant="caption" sx={{ color: '#8A90A2', fontSize: '0.72rem', fontWeight: 700 }}>
+                              Compatibility Fit
+                            </Typography>
+                          </Box>
+                          <Box
+                            sx={{
+                              height: 6,
+                              borderRadius: 3,
+                              bgcolor: '#F5F6FA',
+                              p: '1px',
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                height: '100%',
+                                width: `${score}%`,
+                                borderRadius: 3,
+                                bgcolor: '#00D097',
+                                transition: 'width 0.4s ease',
+                              }}
+                            />
+                          </Box>
+                        </Box>
                       </CardContent>
                     </Card>
                   </Grid>
-                ))}
-              </Grid>
-            </Paper>
-          </Grid>
+                );
+              })}
+            </Grid>
+          </Paper>
         )}
-      </Grid>
+      </Stack>
     </AppLayout>
   );
 }
