@@ -1,6 +1,6 @@
 import { SvgIcon } from '@mui/material';
 
-// 1. Dashboard Icon (Grid Doodle)
+
 export function DoodleDashboard(props) {
   return (
     <SvgIcon viewBox="0 0 24 24" {...props}>
@@ -17,7 +17,7 @@ export function DoodleDashboard(props) {
   );
 }
 
-// 2. Assessment / Quiz Icon (Sticky Note / Card Doodle)
+
 export function DoodleQuiz(props) {
   return (
     <SvgIcon viewBox="0 0 24 24" {...props}>
@@ -33,7 +33,7 @@ export function DoodleQuiz(props) {
   );
 }
 
-// 3. Specialties / Compass Doodle
+
 export function DoodleExplore(props) {
   return (
     <SvgIcon viewBox="0 0 24 24" {...props}>
@@ -46,7 +46,7 @@ export function DoodleExplore(props) {
   );
 }
 
-// 4. Recommendations / Magic Sparkles Doodle
+
 export function DoodleRecommend(props) {
   return (
     <SvgIcon viewBox="0 0 24 24" {...props}>
@@ -65,7 +65,7 @@ export function DoodleRecommend(props) {
   );
 }
 
-// 5. Profile / User Doodle
+
 export function DoodleProfile(props) {
   return (
     <SvgIcon viewBox="0 0 24 24" {...props}>
@@ -82,7 +82,7 @@ export function DoodleProfile(props) {
   );
 }
 
-// 6. Calendar / Notebook Doodle
+
 export function DoodleCalendar(props) {
   return (
     <SvgIcon viewBox="0 0 24 24" {...props}>
@@ -102,7 +102,7 @@ export function DoodleCalendar(props) {
   );
 }
 
-// 7. Trophy / Achievement Doodle
+
 export function DoodleTrophy(props) {
   return (
     <SvgIcon viewBox="0 0 24 24" {...props}>
@@ -113,7 +113,7 @@ export function DoodleTrophy(props) {
   );
 }
 
-// 8. Graduation / Learning Doodle
+
 export function DoodleGraduation(props) {
   return (
     <SvgIcon viewBox="0 0 24 24" {...props}>
@@ -124,7 +124,7 @@ export function DoodleGraduation(props) {
   );
 }
 
-// 9. Brain / Assessment Doodle
+
 export function DoodleBrain(props) {
   return (
     <SvgIcon viewBox="0 0 24 24" {...props}>

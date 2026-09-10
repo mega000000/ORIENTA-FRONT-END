@@ -59,7 +59,7 @@ function RecommendationsPage() {
     );
   }
 
-  // إزالة التكرار واختيار أفضل 3 مسارات
+  
   const top3Recommendations = recommendations
     .filter(
       (rec, index, self) =>

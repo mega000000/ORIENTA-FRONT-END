@@ -39,7 +39,7 @@ body {
   flex-direction: column;
 }
 
-/* Custom Scrollbar نظيف ونحيف */
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;

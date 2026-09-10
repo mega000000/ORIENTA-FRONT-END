@@ -4,7 +4,7 @@ import { Box, TextField, Button, Typography, Paper, Alert, MenuItem } from '@mui
 import { submitOnboarding } from '../api/onboardingApi';
 
 function OnboardingPage() {
-  // Logic untouched
+  
   const [studyLevel, setStudyLevel] = useState('');
   const [weeklyAvailableHours, setWeeklyAvailableHours] = useState('');
   const [objective, setObjective] = useState('');
@@ -32,7 +32,7 @@ function OnboardingPage() {
         minHeight: '100vh',
         width: '100vw',
         bgcolor: '#FBFBFE',
-        // Dot Matrix Background
+        
         backgroundImage: 'radial-gradient(#E2E5EE 1.3px, transparent 1.3px)',
         backgroundSize: '24px 24px',
         p: 2,

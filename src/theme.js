@@ -7,7 +7,7 @@ const theme = createTheme({
       paper: '#FFFFFF',
     },
     primary: {
-      main: '#635BFF', // البنفسجي الأساسي ديال الـ UI
+      main: '#635BFF', 
       light: '#EDEDFE',
       contrastText: '#FFFFFF',
     },
@@ -36,7 +36,7 @@ const theme = createTheme({
     },
   },
   shape: {
-    borderRadius: 20, // الحواف الدائرية الواسعة
+    borderRadius: 20, 
   },
   components: {
     MuiPaper: {

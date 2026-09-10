@@ -36,7 +36,7 @@ function AppLayout({ children, activeTab }) {
     localStorage.removeItem('fullName');
     localStorage.removeItem('email');
     localStorage.removeItem('role');
-    navigate('/'); // 🌟 يرجع مباشرة للصفحة العامة الرئيسية
+    navigate('/'); 
   };
 
   return (

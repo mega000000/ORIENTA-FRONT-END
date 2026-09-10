@@ -21,7 +21,7 @@ function RegisterPage() {
       await register(fullName, email, password, role);
       const loginData = await login(email, password);
 
-      // حفظ الـ Token وبيانات المستخدم الحقيقية
+      
       const token = loginData.token || loginData.loginToken;
       localStorage.setItem('token', token);
       localStorage.setItem('fullName', loginData.fullName || fullName);

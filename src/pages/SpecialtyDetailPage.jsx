@@ -43,7 +43,7 @@ function SpecialtyDetailPage() {
             setIsCurrentTarget(true);
           }
         } catch {
-          // No target assigned yet
+          
         }
       } catch (err) {
         console.error('Error fetching specialty details:', err);

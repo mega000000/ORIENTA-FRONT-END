@@ -78,7 +78,7 @@ function AssessmentPage() {
     setSubmitting(true);
     setError('');
 
-    // 🌟 FIX 1: Map 'score' to 'value' to match Java AnswerRequest DTO
+    
     const formattedAnswers = Object.entries(answers).map(([questionId, score]) => ({
       questionId: Number(questionId),
       value: score,
@@ -86,7 +86,7 @@ function AssessmentPage() {
 
     try {
       await submitAnswers(sessionId, formattedAnswers);
-      // 🌟 FIX 2: Teleport to the exact route defined in App.jsx
+      
       navigate(`/assessment/results/${sessionId}`);
     } catch (err) {
       console.error('Error submitting answers:', err);
@@ -128,7 +128,7 @@ function AssessmentPage() {
 
   const currentQ = questions[currentIndex];
   
-  // 🌟 FIX 3: Progress calculates based on ACTUAL answers clicked, not just page number
+  
   const answeredCount = Object.keys(answers).length;
   const progressPercent = questions.length > 0 ? (answeredCount / questions.length) * 100 : 0;
   

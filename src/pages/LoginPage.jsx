@@ -21,7 +21,7 @@ function LoginPage() {
       const token = data.token || data.loginToken;
       localStorage.setItem('token', token);
 
-      // حفظ بيانات المستخدم الحقيقية
+      
       localStorage.setItem('email', data.email || email);
       if (data.fullName) {
         localStorage.setItem('fullName', data.fullName);
